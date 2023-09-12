@@ -3,6 +3,7 @@ import requests
 import csv
 from datetime import datetime, timedelta
 
+#https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
 
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
 #add more stats and also look for potentially more urls
