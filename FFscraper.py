@@ -9,10 +9,9 @@ accepted_positions = {'rb', 'qb', 'flex', 'te', 'k', 'dst'}
 def switch(position):
     position = position.lower()
     if position not in accepted_positions:
-        print("entered value does not match a valid position. Valid postions are rb, qb, te, k, dst, flex")
+        print("entered value does not match a valid position. Valid positions are rb, qb, te, k, dst, flex")
         exit(1)
     return "https://www.fantasypros.com/nfl/rankings/"+position+".php"
-
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
 #add more stats and also look for potentially more urls
 # Get today's date in ddmmyyyy format
@@ -21,11 +20,11 @@ option = input("do you want ros (rest of season) or next week rankings (answer r
 # URL of the website to scrape
 if option == "ros":
     url = "https://www.fantasypros.com/nfl/rankings/ros-overall.php"
-if option == "nw":
+elif option == "nw":
     position = input("pick the position you want to report on "  )
     url = switch(position)
 else:
-    print("you did it wrong (╯°□°)╯︵ ┻━┻")
+    print("you did it wrong (╯°□°)╯︵ ┻━┻ or maybe I did something wrong ┬─┬ノ(ಠ_ಠノ)")
     exit(1)
 
 # Make a GET request to the API
@@ -51,7 +50,7 @@ for player_data in data.get('players', []):
     raw_data.append([player_id, name, position, rank])
 
 # Create a CSV file, write columns, and write raw data to CSV
-fileName = f"ranks_{today_date}.csv"
+fileName = f"ranks_{today_date+position}.csv"
 with open(fileName, "w", newline="", encoding="utf-8") as csvfile:
     csv_writer = csv.writer(csvfile)
     csv_writer.writerow(["Player ID", "Player Name", "Position", "Rank"])
