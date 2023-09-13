@@ -50,7 +50,7 @@ for player_data in data.get('players', []):
     raw_data.append([player_id, name, position, rank])
 
 # Create a CSV file, write columns, and write raw data to CSV
-fileName = f"ranks_{today_date+position}.csv"
+fileName = f"ranks_{today_date}{position}.csv"
 with open(fileName, "w", newline="", encoding="utf-8") as csvfile:
     csv_writer = csv.writer(csvfile)
     csv_writer.writerow(["Player ID", "Player Name", "Position", "Rank"])
