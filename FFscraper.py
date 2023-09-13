@@ -4,8 +4,13 @@ import csv
 from datetime import datetime, timedelta
 
 #https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
+
+accepted_positions = {'rb', 'qb', 'flex', 'te', 'k', 'dst'}
 def switch(position):
     position = position.lower()
+    if position not in accepted_positions:
+        print("entered value does not match a valid position. Valid postions are rb, qb, te, k, dst, flex")
+        exit(1)
     return "https://www.fantasypros.com/nfl/rankings/"+position+".php"
 
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
