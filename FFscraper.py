@@ -4,14 +4,24 @@ import csv
 from datetime import datetime, timedelta
 
 #https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
+def switch(position):
+    position = position.lower()
+    return "https://www.fantasypros.com/nfl/rankings/"+position+".php"
 
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
 #add more stats and also look for potentially more urls
 # Get today's date in ddmmyyyy format
 today_date = datetime.now().strftime('%m%d%Y')
-
+option = input("do you want ros (rest of season) or next week rankings (answer ros or nw) "  )
 # URL of the website to scrape
-url = "https://www.fantasypros.com/nfl/rankings/ros-overall.php"
+if option == "ros":
+    url = "https://www.fantasypros.com/nfl/rankings/ros-overall.php"
+if option == "nw":
+    position = input("pick the position you want to report on "  )
+    url = switch(position)
+else:
+    print("you did it wrong (╯°□°)╯︵ ┻━┻")
+    exit(1)
 
 # Make a GET request to the API
 response = requests.get(url)
