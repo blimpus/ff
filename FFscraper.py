@@ -20,7 +20,12 @@ for pos in helper.accepted_positions:
   options = options + pos + " "
 # URL of the website to scrape
 if option == "ros":
-    url = "https://www.fantasypros.com/nfl/rankings/ros-overall.php"
+    position = input(f"pick the position you want to report on or press enter for all positions. options are: {options} ")
+    if position != '':
+        helper.switch(position)
+        url = "https://www.fantasypros.com/nfl/rankings/ros-" + position + ".php"
+    else:
+        url = "https://www.fantasypros.com/nfl/rankings/ros-overall.php"
 elif option == "nw":
     position = input(f"pick the position you want to report on. options are: {options} "  )
     url = helper.switch(position)
