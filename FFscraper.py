@@ -59,9 +59,10 @@ if not isExist:
     os.makedirs(f"./reports/{today_date}")
     print("created new reports directory...... you're welcome")
 
-compareFlag = input("would you like to compare 2 players ros projections? (y,n)")
-if 'y' == compareFlag.lower():
-    helper.compare(players)
+if option == 'nw':
+    compareFlag = input("would you like to compare 2 players ros projections? (y,n)")
+    if 'y' == compareFlag.lower():
+        helper.compare(players)
 
 
 fileName = f"reports/{today_date}/ranks_{position}.csv"

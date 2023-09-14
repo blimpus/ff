@@ -17,7 +17,14 @@ def compare(players):
     for player in players.values():
         print(str(player.rank) + " " + player.position + " " + player.name + " " + str(player.id))
     rank1, rank2 = input("enter the ranks of the players you want to compare seperated by a space: ").split()
-    position = str(players.get(int(rank1)).position)
+
+    full_player_1 = players.get(int(rank1))
+    full_player_2 = players.get(int(rank2))
+
+    if full_player_2.position != full_player_1.position:
+        position = 'all_positions'
+    else:
+        position = str(players.get(int(rank1)).position)
 
     print(players.get(int(rank1)).get_data())
     player1 = players.get(int(rank1)).name
@@ -49,7 +56,6 @@ def get_ros_projection(name1, name2, position):
     headers[0] = 'PLAYER NAME'
 
     for player_name in table_ff.values.__array__().__array__():
-        print(player_name[0])
         if name1 in player_name[0] or name2 in player_name[0]:
             list_of_stats.append(player_name)
 
@@ -70,3 +76,5 @@ def write_comparison_to_csv(position,list_of_stats,headers):
         csv_writer.writerow(headers)
         csv_writer.writerows(list_of_stats)
         print("comparison created")
+
+
