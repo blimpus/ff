@@ -1,14 +1,7 @@
-import datetime
-import json
 import requests
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from unicodedata import normalize
-import lxml as xml
 from datetime import datetime
 import csv
-
 accepted_positions = {'rb', 'qb', 'flex', 'te', 'k', 'dst'}
 today_date = datetime.now().strftime('%m%d%Y')
 

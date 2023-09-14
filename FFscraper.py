@@ -6,7 +6,7 @@ import csv
 from datetime import datetime, timedelta
 
 import helper
-from ff.player import Player
+from player import Player
 
 #https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
 
@@ -53,16 +53,16 @@ for player_data in data.get('players', []):
         continue
     raw_data.append([player_id, name, position, rank])
 
-
-compareFlag = input("would you like to compare 2 players ros projections? (y,n)")
-if 'y' == compareFlag.lower():
-    helper.compare(players)
-
 # Create a CSV file, write columns, and write raw data to CSV
 isExist = os.path.exists(f"./reports/{today_date}")
 if not isExist:
     os.makedirs(f"./reports/{today_date}")
     print("created new reports directory...... you're welcome")
+
+compareFlag = input("would you like to compare 2 players ros projections? (y,n)")
+if 'y' == compareFlag.lower():
+    helper.compare(players)
+
 
 fileName = f"reports/{today_date}/ranks_{position}.csv"
 with open(fileName, "w", newline="", encoding="utf-8") as csvfile:
