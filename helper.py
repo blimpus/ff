@@ -57,6 +57,13 @@ def get_ros_projection(name1, name2, position):
             list_of_stats.append(player_name)
 
     #print(table_ff.values.__array__()[0][0])
+    difference = ["differences"]
+    for x in range(len(list_of_stats[0])):
+        player1 = list_of_stats[0]
+        player2 = list_of_stats[1]
+        if x != 0:
+            difference.append(player1[x]-player2[x])
+    list_of_stats.append(difference)
     print(list_of_stats)
     write_comparison_to_csv(position,list_of_stats,headers)
     print("got here")
