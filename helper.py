@@ -58,7 +58,7 @@ def get_ros_projection(name1, name2, position,week):
         player1 = list_of_stats[0]
         player2 = list_of_stats[1]
         if x != 0:
-            difference.append(player1[x]-player2[x])
+            difference.append(round(player1[x]-player2[x], 1))
 
     list_of_stats.append(difference)
     write_comparison_to_csv(position,list_of_stats,headers)
