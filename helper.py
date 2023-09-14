@@ -38,8 +38,12 @@ def get_ros_projection(name1, name2, position):
         headers_array.append(header)
 
     #todo: tables for kickers and dst are set up differently so will need if statement to fix headers here
-    for entry in headers_array:
-        headers.append(entry[0] + ' ' + entry[1])
+    if 'k' in position.lower() or 'dst' in position.lower():
+        for entry in headers_array:
+            headers.append(entry)
+    else:
+        for entry in headers_array:
+            headers.append(entry[0] + ' ' + entry[1])
 
     #remove leading bad data element from headers array
     headers[0] = 'PLAYER NAME'
@@ -49,17 +53,15 @@ def get_ros_projection(name1, name2, position):
         if name1 in player_name[0] or name2 in player_name[0]:
             list_of_stats.append(player_name)
 
-    #print(table_ff.values.__array__()[0][0])
     difference = ["differences"]
     for x in range(len(list_of_stats[0])):
         player1 = list_of_stats[0]
         player2 = list_of_stats[1]
         if x != 0:
             difference.append(player1[x]-player2[x])
+
     list_of_stats.append(difference)
-    print(list_of_stats)
     write_comparison_to_csv(position,list_of_stats,headers)
-    print("got here")
 
 def write_comparison_to_csv(position,list_of_stats,headers):
     fileName = f"reports/{today_date}/ranks_{position}_comparison.csv"
