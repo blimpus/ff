@@ -5,30 +5,27 @@ import requests
 import csv
 from datetime import datetime, timedelta
 
+import helper
+
 #https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
 
-accepted_positions = {'rb', 'qb', 'flex', 'te', 'k', 'dst'}
-def switch(position):
-    position = position.lower()
-    if position not in accepted_positions:
-        print("entered value does not match a valid position. Valid positions are rb, qb, te, k, dst, flex")
-        exit(1)
-    return "https://www.fantasypros.com/nfl/rankings/"+position+".php"
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
 #add more stats and also look for potentially more urls
 # Get today's date in ddmmyyyy format
 today_date = datetime.now().strftime('%m%d%Y')
 option = input("do you want ros (rest of season) or next week rankings (answer ros or nw) "  )
+options = ''
+for pos in helper.accepted_positions:
+  options = options + pos + " "
 # URL of the website to scrape
 if option == "ros":
     url = "https://www.fantasypros.com/nfl/rankings/ros-overall.php"
 elif option == "nw":
-    position = input(f"pick the position you want to report on. potential options are {accepted_positions} "  )
-    url = switch(position)
+    position = input(f"pick the position you want to report on. options are: {options} "  )
+    url = helper.switch(position)
 else:
     print("you did it wrong (╯°□°)╯︵ ┻━┻ or maybe I did something wrong ┬─┬ノ(ಠ_ಠノ)")
     exit(1)
-
 # Make a GET request to the API
 response = requests.get(url)
 
