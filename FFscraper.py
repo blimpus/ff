@@ -10,10 +10,15 @@ from player import Player
 
 #https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
 
+nfl_start = datetime(2023,9,7)
+
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
 #add more stats and also look for potentially more urls
 # Get today's date in ddmmyyyy format
 today_date = datetime.now().strftime('%m%d%Y')
+today_date_week = (datetime.now()-timedelta(days=datetime.now().weekday()))
+week = int((today_date_week - (nfl_start - timedelta(days=nfl_start.weekday()))).days / 7)
+
 option = input("do you want ros (rest of season) or next week rankings (answer ros or nw) "  )
 options = ''
 for pos in helper.accepted_positions:
@@ -50,13 +55,13 @@ list_of_players = []
 for player_data in data.get('players', []):
     player_id = player_data.get('player_id')
     name = player_data.get('player_name')
-    position = player_data.get('player_position_id')
+    player_position = player_data.get('player_position_id')
     rank = player_data.get('rank_ecr')
     p=Player(player_id,name,position,rank)
     players.__setitem__(rank, p)
     if not player_id:
         continue
-    raw_data.append([player_id, name, position, rank])
+    raw_data.append([player_id, name, player_position, rank])
 
 # Create a CSV file, write columns, and write raw data to CSV
 isExist = os.path.exists(f"./reports/{today_date}")
@@ -67,8 +72,7 @@ if not isExist:
 if option == 'nw':
     compareFlag = input("would you like to compare 2 players ros projections? (y,n)")
     if 'y' == compareFlag.lower():
-        helper.compare(players)
-
+        helper.compare(players,position, week)
 
 fileName = f"reports/{today_date}/ranks_{position}.csv"
 with open(fileName, "w", newline="", encoding="utf-8") as csvfile:

@@ -13,27 +13,22 @@ def switch(position):
         exit(1)
     return "https://www.fantasypros.com/nfl/rankings/"+position+".php"
 
-def compare(players):
+def compare(players,position,week):
     for player in players.values():
         print(str(player.rank) + " " + player.name)
     rank1, rank2 = input("enter the ranks of the players you want to compare seperated by a space: ").split()
 
-    full_player_1 = players.get(int(rank1))
-    full_player_2 = players.get(int(rank2))
-
-    if full_player_2.position != full_player_1.position:
-        position = 'all_positions'
-    else:
-        position = str(players.get(int(rank1)).position)
+    if 'flex' in position.lower():
+        print("flex comparisons not supported at this time")
+        return
 
     player1 = players.get(int(rank1)).name
     player2 = players.get(int(rank2)).name
 
-    get_ros_projection(player1, player2, position.lower())
+    get_ros_projection(player1, player2, position.lower(),week)
 
-def get_ros_projection(name1, name2, position):
-    ros_projections_url = "https://www.fantasypros.com/nfl/projections/"+ position +".php?week=draft"
-    response = requests.get(ros_projections_url)
+def get_ros_projection(name1, name2, position,week):
+    ros_projections_url = "https://www.fantasypros.com/nfl/projections/"+ position +".php?week=" + str(week)
 
     table_ff = pd.read_html(ros_projections_url)[0]
 
@@ -43,7 +38,7 @@ def get_ros_projection(name1, name2, position):
     for header in table_ff:
         headers_array.append(header)
 
-    #todo: tables for kickers and dst are set up differently so will need if statement to fix headers here
+    #kicker and dst tables have  a different format
     if 'k' in position.lower() or 'dst' in position.lower():
         for entry in headers_array:
             headers.append(entry)
@@ -74,6 +69,6 @@ def write_comparison_to_csv(position,list_of_stats,headers):
         csv_writer = csv.writer(csvfile)
         csv_writer.writerow(headers)
         csv_writer.writerows(list_of_stats)
-        print("comparison created")
+        print(f"comparison created under filename: {fileName}")
 
 
