@@ -21,7 +21,7 @@ option = input("do you want ros (rest of season) or next week rankings (answer r
 if option == "ros":
     url = "https://www.fantasypros.com/nfl/rankings/ros-overall.php"
 elif option == "nw":
-    position = input("pick the position you want to report on "  )
+    position = input(f"pick the position you want to report on. potential options are {accepted_positions} "  )
     url = switch(position)
 else:
     print("you did it wrong (╯°□°)╯︵ ┻━┻ or maybe I did something wrong ┬─┬ノ(ಠ_ಠノ)")
@@ -50,7 +50,7 @@ for player_data in data.get('players', []):
     raw_data.append([player_id, name, position, rank])
 
 # Create a CSV file, write columns, and write raw data to CSV
-fileName = f"ranks_{today_date}{position}.csv"
+fileName = f"ranks_{today_date}_{position}.csv"
 with open(fileName, "w", newline="", encoding="utf-8") as csvfile:
     csv_writer = csv.writer(csvfile)
     csv_writer.writerow(["Player ID", "Player Name", "Position", "Rank"])
