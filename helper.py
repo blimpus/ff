@@ -15,7 +15,7 @@ def switch(position):
 
 def compare(players):
     for player in players.values():
-        print(str(player.rank) + " " + player.position + " " + player.name + " " + str(player.id))
+        print(str(player.rank) + " " + player.name)
     rank1, rank2 = input("enter the ranks of the players you want to compare seperated by a space: ").split()
 
     full_player_1 = players.get(int(rank1))
@@ -26,7 +26,6 @@ def compare(players):
     else:
         position = str(players.get(int(rank1)).position)
 
-    print(players.get(int(rank1)).get_data())
     player1 = players.get(int(rank1)).name
     player2 = players.get(int(rank2)).name
 
