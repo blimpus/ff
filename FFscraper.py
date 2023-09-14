@@ -17,7 +17,7 @@ nfl_start = datetime(2023,9,7)
 # Get today's date in ddmmyyyy format
 today_date = datetime.now().strftime('%m%d%Y')
 today_date_week = (datetime.now()-timedelta(days=datetime.now().weekday()))
-week = int((today_date_week - (nfl_start - timedelta(days=nfl_start.weekday()))).days / 7)
+week = int((today_date_week - (nfl_start - timedelta(days=nfl_start.weekday()))).days / 7) + 1
 
 option = input("do you want ros (rest of season) or next week rankings (answer ros or nw) "  )
 options = ''
@@ -70,7 +70,7 @@ if not isExist:
     print("created new reports directory...... you're welcome")
 
 if option == 'nw':
-    compareFlag = input("would you like to compare 2 players ros projections? (y,n)")
+    compareFlag = input("would you like to compare 2 players next week projections? (y,n)")
     if 'y' == compareFlag.lower():
         helper.compare(players,position, week)
 

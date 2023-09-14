@@ -28,7 +28,7 @@ def compare(players,position,week):
     get_ros_projection(player1, player2, position.lower(),week)
 
 def get_ros_projection(name1, name2, position,week):
-    ros_projections_url = "https://www.fantasypros.com/nfl/projections/"+ position +".php?week=" + str(week)
+    ros_projections_url = "https://www.fantasypros.com/nfl/projections/"+ position +".php"
 
     table_ff = pd.read_html(ros_projections_url)[0]
 
