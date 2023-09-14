@@ -1,4 +1,6 @@
 import json
+import os.path
+
 import requests
 import csv
 from datetime import datetime, timedelta
@@ -50,7 +52,11 @@ for player_data in data.get('players', []):
     raw_data.append([player_id, name, position, rank])
 
 # Create a CSV file, write columns, and write raw data to CSV
-fileName = f"ranks_{today_date}_{position}.csv"
+isExist = os.path.exists(f"./reports/{today_date}")
+if not isExist:
+    os.makedirs(f"./reports/{today_date}")
+    print("created new dir...... you're welcome")
+fileName = f"reports/{today_date}/ranks_{position}.csv"
 with open(fileName, "w", newline="", encoding="utf-8") as csvfile:
     csv_writer = csv.writer(csvfile)
     csv_writer.writerow(["Player ID", "Player Name", "Position", "Rank"])
