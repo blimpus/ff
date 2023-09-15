@@ -8,7 +8,7 @@
 # HOW TO RUN FROM GLOBAL LOCATION
 1. open powershell by pressing the windows key and typing 'powershell' then pressing enter
 2. if you installed it into a different folder than your desktop then you are on your own
-3. run this command 'python3 C:\Users\<user-name>\Desktop\ff\ffscraper.py'
+3. run this command 'python3 C:\Users\<user-name>\Desktop\ff-main\ff-main\ffscraper.py'
 
 # HOW TO RUN ANY OTHER WAY
 1. contact Brenden and not me
