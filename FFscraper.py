@@ -16,6 +16,10 @@ nfl_start = datetime(2023,9,7)
 window = psg.Window("ff",views.layout, margins=(250, 250))
 position_window = psg.Window("ff",views.position_layout, margins=(250,250))
 compare_window = psg.Window("ff", views.comparison_layout, margins=(250,250))
+player_compare_window = psg.Window("ff", views.player_comparison_layout, margins=(250,250))
+
+#take name from dropbox and compare against other names stats dont overthink it
+player_dropdown_layout = views.create_player_combobox([])
 i = 0
 compare = 'no'
 position = 'booglie boo'
@@ -40,6 +44,7 @@ while True:
         position_window.close()
         compare, compare_values = compare_window.read()
         compare_window.close()
+        pl1,p1values = player_compare_window.read(s)
         helper.switch(position)
         break
 
@@ -109,4 +114,4 @@ with open(fileName, "w", newline="", encoding="utf-8") as csvfile:
 
 print(f"{fileName} Created Successfully")
 cwd = os.getcwd()
-print("full directory path is " + str(cwd))
+print("full directory path is " + str(cwd) + " so look here for the output files")
