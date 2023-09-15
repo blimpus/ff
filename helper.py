@@ -53,7 +53,7 @@ def get_ros_projection(name1, name2, position,week):
         if name1 in player_name[0] or name2 in player_name[0]:
             list_of_stats.append(player_name)
 
-    difference = ["differences"]
+    difference = [f"difference: {name1} - {name2}"]
     for x in range(len(list_of_stats[0])):
         player1 = list_of_stats[0]
         player2 = list_of_stats[1]

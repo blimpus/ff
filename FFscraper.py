@@ -1,16 +1,28 @@
 import json
 import os.path
+import PySimpleGUI as psg
 
 import requests
 import csv
 from datetime import datetime, timedelta
 
 import helper
+import layouts as views
 from player import Player
 
 #https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
 
 nfl_start = datetime(2023,9,7)
+window = psg.Window("ff",views.layout, margins=(250,250))
+
+while True:
+    event, values = window.read()
+    if event == "ROS":
+        option = "ros"
+        break
+    elif event == "Next Week":
+        option = "nw"
+        break
 
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
 #add more stats and also look for potentially more urls
@@ -19,7 +31,6 @@ today_date = datetime.now().strftime('%m%d%Y')
 today_date_week = (datetime.now()-timedelta(days=datetime.now().weekday()))
 week = int((today_date_week - (nfl_start - timedelta(days=nfl_start.weekday()))).days / 7) + 1
 
-option = input("do you want ros (rest of season) or next week rankings (answer ros or nw) "  )
 options = ''
 for pos in helper.accepted_positions:
   options = options + pos + " "
