@@ -13,15 +13,34 @@ from player import Player
 #https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
 
 nfl_start = datetime(2023,9,7)
-window = psg.Window("ff",views.layout, margins=(250,250))
-
+window = psg.Window("ff",views.layout, margins=(250, 250))
+position_window = psg.Window("ff",views.position_layout, margins=(250,250))
+compare_window = psg.Window("ff", views.comparison_layout, margins=(250,250))
+i = 0
+compare = 'no'
+position = 'booglie boo'
 while True:
     event, values = window.read()
+
     if event == "ROS":
         option = "ros"
+        window.close()
+        position, position_values = position_window.read()
+        position = position.lower()
+        position_window.close()
+        print("you might be wondering why you aren't being asked to compare values, its because I haven't added that yet (ㆆ _ ㆆ)")
+        helper.switch(position)
         break
+
     elif event == "Next Week":
         option = "nw"
+        window.close()
+        position, position_values = position_window.read()
+        position = position.lower()
+        position_window.close()
+        compare, compare_values = compare_window.read()
+        compare_window.close()
+        helper.switch(position)
         break
 
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
@@ -36,14 +55,12 @@ for pos in helper.accepted_positions:
   options = options + pos + " "
 # URL of the website to scrape
 if option == "ros":
-    position = input(f"pick the position you want to report on or press enter for all positions. options are: {options} ")
-    if position != '':
+    if position != 'all positions':
         helper.switch(position)
         url = "https://www.fantasypros.com/nfl/rankings/ros-" + position + ".php"
     else:
         url = "https://www.fantasypros.com/nfl/rankings/ros-overall.php"
 elif option == "nw":
-    position = input(f"pick the position you want to report on. options are: {options} "  )
     url = helper.switch(position)
 else:
     print("you did it wrong (╯°□°)╯︵ ┻━┻ or maybe I did something wrong ┬─┬ノ(ಠ_ಠノ)")
@@ -81,8 +98,7 @@ if not isExist:
     print("created new reports directory...... you're welcome")
 
 if option == 'nw':
-    compareFlag = input("would you like to compare 2 players next week projections? (y,n)")
-    if 'y' == compareFlag.lower():
+    if 'yes' == compare.lower():
         helper.compare(players,position, week)
 
 fileName = f"reports/{today_date}/ranks_{position}.csv"

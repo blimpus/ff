@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 import csv
-accepted_positions = {'rb', 'qb', 'flex', 'te', 'k', 'dst'}
+accepted_positions = {'all positions', 'rb', 'qb', 'flex', 'te', 'k', 'dst'}
 today_date = datetime.now().strftime('%m%d%Y')
 
 
