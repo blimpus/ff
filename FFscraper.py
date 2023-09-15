@@ -44,7 +44,7 @@ while True:
         position_window.close()
         compare, compare_values = compare_window.read()
         compare_window.close()
-        pl1,p1values = player_compare_window.read(s)
+        pl1,p1values = player_compare_window.read()
         helper.switch(position)
         break
 
