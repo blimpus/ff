@@ -108,3 +108,5 @@ with open(fileName, "w", newline="", encoding="utf-8") as csvfile:
     csv_writer.writerows(raw_data)
 
 print(f"{fileName} Created Successfully")
+cwd = os.getcwd()
+print("full directory path is " + str(cwd))
