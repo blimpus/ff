@@ -18,6 +18,7 @@ position_window = psg.Window("ff",views.position_layout, margins=(250,250))
 compare_window = psg.Window("ff", views.comparison_layout, margins=(250,250))
 player_compare_window = psg.Window("ff", views.player_comparison_layout, margins=(250,250))
 
+
 #take name from dropbox and compare against other names stats dont overthink it
 player_dropdown_layout = views.create_player_combobox([])
 i = 0
@@ -44,9 +45,9 @@ while True:
         position_window.close()
         compare, compare_values = compare_window.read()
         compare_window.close()
-        pl1,p1values = player_compare_window.read()
         helper.switch(position)
         break
+
 
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
 #add more stats and also look for potentially more urls
@@ -102,9 +103,16 @@ if not isExist:
     os.makedirs(f"./reports/{today_date}")
     print("created new reports directory...... you're welcome")
 
+
+test = list(helper.get_player_name_list(players))
+test.sort()
+real_player_compare_window = psg.Window('combobox example',
+                                        views.create_player_combobox(test),
+                                        size=(750, 200))
 if option == 'nw':
     if 'yes' == compare.lower():
-        helper.compare(players,position, week)
+        players_to_compare = helper.compare_window_players(real_player_compare_window)
+        helper.compare(players, players_to_compare, position, week)
 
 fileName = f"reports/{today_date}/ranks_{position}.csv"
 with open(fileName, "w", newline="", encoding="utf-8") as csvfile:

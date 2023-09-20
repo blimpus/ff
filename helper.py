@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 import csv
+import PySimpleGUI as psg
 accepted_positions = {'all positions', 'rb', 'qb', 'flex', 'te', 'k', 'dst'}
 today_date = datetime.now().strftime('%m%d%Y')
 
@@ -13,21 +14,25 @@ def switch(position):
         exit(1)
     return "https://www.fantasypros.com/nfl/rankings/"+position+".php"
 
-def compare(players,position,week):
-    for player in players.values():
-        print(str(player.rank) + " " + player.name)
-    rank1, rank2 = input("enter the ranks of the players you want to compare seperated by a space: ").split()
+
+def compare(players, players_to_compare, position, week):
+    #for player in players.values():
+       #print(str(player.rank) + " " + player.name)
+    #rank1, rank2 = input("enter the ranks of the players you want to compare seperated by a space: ").split()
 
     if 'flex' in position.lower():
         print("flex comparisons not supported at this time")
         return
 
-    player1 = players.get(int(rank1)).name
-    player2 = players.get(int(rank2)).name
+    #player1 = players.get(int(rank1)).name
+    #player2 = players.get(int(rank2)).name
+    player1 = players_to_compare.pop()
+    player2 = players_to_compare.pop()
 
     get_ros_projection(player1, player2, position.lower(),week)
 
-def get_ros_projection(name1, name2, position,week):
+
+def get_ros_projection(name1, name2, position, week):
     ros_projections_url = "https://www.fantasypros.com/nfl/projections/"+ position +".php"
 
     table_ff = pd.read_html(ros_projections_url)[0]
@@ -63,6 +68,7 @@ def get_ros_projection(name1, name2, position,week):
     list_of_stats.append(difference)
     write_comparison_to_csv(position,list_of_stats,headers)
 
+
 def write_comparison_to_csv(position,list_of_stats,headers):
     fileName = f"reports/{today_date}/ranks_{position}_comparison.csv"
     with open(fileName, "w", newline="", encoding="utf-8") as csvfile:
@@ -70,5 +76,38 @@ def write_comparison_to_csv(position,list_of_stats,headers):
         csv_writer.writerow(headers)
         csv_writer.writerows(list_of_stats)
         print(f"comparison created under filename: {fileName}")
+
+
+def compare_window_players(window):
+    players_to_compare = []
+    while True:
+        event, values = window.read()
+        print(event, values)
+        if event in (psg.WIN_CLOSED, 'exit'):
+            popup = psg.popup_ok_cancel("exit application?", title='cancel exit')
+            if popup.lower() == "ok":
+                window.close()
+                print("Application exited from UI")
+                exit(1)
+        if event == '-COMBO-':
+            print(values)
+            val = values['-COMBO-']
+            players_to_compare.append(val)
+            if len(players_to_compare) < 2:
+                psg.popup_ok("please select one more player to compare")
+            else:
+                window.close()
+                return players_to_compare
+
+def get_player_name_list(players):
+    player_names = []
+    for player in players.values():
+        player_names.append(player.name)
+    return player_names
+
+
+
+
+
 
 
