@@ -3,6 +3,7 @@ from datetime import datetime
 import math
 from lxml import html
 import csv
+import pandas as pd
 
 # Define the start date of NFL season (used to calculate which NFL week it is)
 static_date = datetime(2023, 9, 3)
@@ -14,13 +15,14 @@ today_date = datetime.now()
 time_difference = today_date - static_date
 
 # Calculate the number of weeks
-weeks_difference = math.ceil(time_difference.days / 7)-1
+weeks_difference = math.ceil(time_difference.days / 7) - 1
 
 # Convert weeks to string to use in URL
 weeks_difference_str = str(weeks_difference)
 
 # URL of the website to scrape
-url = "https://www.fantasypros.com/2023/09/fantasy-football-trade-value-chart-week-"+weeks_difference_str+"-2023/"
+url = "https://www.fantasypros.com/2023/09/fantasy-football-trade-value-chart-week-" + weeks_difference_str + "-2023/"
+
 
 # Make a GET request to the API
 
@@ -30,6 +32,25 @@ def run_trade_values():
 
     # Check if the request was successful
     if response.status_code == 200:
+
+        ######## USING PANDAS ###########
+        table_ff = pd.read_html(url)
+        frames = []
+        for frame in table_ff:
+            frames.append(frame)
+
+        # concat data frames with keys to position so you can filter on what position you want to show later
+        # example table_ff = table_ff.loc["TE"] will only show the TE positions
+        table_ff = pd.concat(frames, keys=["QB", "RB", "WR", "TE"])
+
+        # remove first row and set next row as column headers
+        table_ff.columns = table_ff.iloc[0]
+        table_ff = table_ff[1:]
+
+        table_ff.to_csv('trade_values_test.csv', index=False)
+
+        ######## USING traditional html scraping ###########
+
         # Parse the HTML response content
         tree = html.fromstring(response.text)
 
@@ -52,7 +73,7 @@ def run_trade_values():
             csv_filename = "tradeValues.csv"
 
             # Write data to CSV
-            with open(csv_filename, mode = 'w', newline='') as csv_file:
+            with open(csv_filename, mode='w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file)
                 csv_writer.writerows(data)
 
