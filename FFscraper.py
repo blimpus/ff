@@ -8,15 +8,12 @@ from datetime import datetime, timedelta
 
 import helper
 import layouts as views
+import TradeValues as tv
 from player import Player
 
 #https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
 
 nfl_start = datetime(2023,9,7)
-window = psg.Window("ff",views.layout, margins=(250, 250))
-position_window = psg.Window("ff",views.position_layout, margins=(250,250))
-compare_window = psg.Window("ff", views.comparison_layout, margins=(250,250))
-player_compare_window = psg.Window("ff", views.player_comparison_layout, margins=(250,250))
 
 
 #take name from dropbox and compare against other names stats dont overthink it
@@ -25,28 +22,33 @@ i = 0
 compare = 'no'
 position = 'booglie boo'
 while True:
-    event, values = window.read()
+    event, values = views.window.read()
 
     if event == "ROS":
         option = "ros"
-        window.close()
-        position, position_values = position_window.read()
+        views.window.close()
+        position, position_values = views.position_window.read()
         position = position.lower()
-        position_window.close()
+        views.position_window.close()
         print("you might be wondering why you aren't being asked to compare values, its because I haven't added that yet (ㆆ _ ㆆ)")
         helper.switch(position)
         break
 
     elif event == "Next Week":
         option = "nw"
-        window.close()
-        position, position_values = position_window.read()
+        views.window.close()
+        position, position_values = views.position_window.read()
         position = position.lower()
-        position_window.close()
-        compare, compare_values = compare_window.read()
-        compare_window.close()
+        views.position_window.close()
+        compare, compare_values = views.compare_window.read()
+        views.compare_window.close()
         helper.switch(position)
         break
+
+    elif event == "Trade Values":
+        tv.run_trade_values()
+        print("Exiting application")
+        exit(2)
 
 
 #todo: add params to filter yes no to comparing players then take x amount of players to show and filter all the rest
@@ -104,14 +106,14 @@ if not isExist:
     print("created new reports directory...... you're welcome")
 
 
-test = list(helper.get_player_name_list(players))
-test.sort()
-real_player_compare_window = psg.Window('combobox example',
-                                        views.create_player_combobox(test),
-                                        size=(750, 200))
+player_names = list(helper.get_player_name_list(players))
+player_names.sort()
+#real_player_compare_window = psg.Window('combobox example',
+                                        #views.create_player_combobox(test),
+                                        #size=(750, 200))
 if option == 'nw':
     if 'yes' == compare.lower():
-        players_to_compare = helper.compare_window_players(real_player_compare_window)
+        players_to_compare = helper.compare_window_players(views.create_player_dropdown_window(player_names))
         helper.compare(players, players_to_compare, position, week)
 
 fileName = f"reports/{today_date}/ranks_{position}.csv"
