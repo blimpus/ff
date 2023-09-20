@@ -78,23 +78,22 @@ def write_comparison_to_csv(position,list_of_stats,headers):
         print(f"comparison created under filename: {fileName}")
 
 
-def compare_window_players(window):
+def compare_window_players(window, players):
     players_to_compare = []
     while True:
         event, values = window.read()
-        print(event, values)
         if event in (psg.WIN_CLOSED, 'exit'):
             popup = psg.popup_ok_cancel("exit application?", title='cancel exit')
             if popup.lower() == "ok":
                 window.close()
-                print("Application exited from UI")
                 exit(1)
         if event == '-COMBO-':
-            print(values)
             val = values['-COMBO-']
             players_to_compare.append(val)
+            players.remove(val)
+            window['-COMBO-'].update(values=players,value=' ')
             if len(players_to_compare) < 2:
-                psg.popup_ok("please select one more player to compare")
+                psg.popup_ok(f"please select one more player to compare ({val} was removed from dropdown)")
             else:
                 window.close()
                 return players_to_compare

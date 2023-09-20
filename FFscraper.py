@@ -113,7 +113,7 @@ player_names.sort()
                                         #size=(750, 200))
 if option == 'nw':
     if 'yes' == compare.lower():
-        players_to_compare = helper.compare_window_players(views.create_player_dropdown_window(player_names))
+        players_to_compare = helper.compare_window_players(views.create_player_dropdown_window(player_names),player_names)
         helper.compare(players, players_to_compare, position, week)
 
 fileName = f"reports/{today_date}/ranks_{position}.csv"
