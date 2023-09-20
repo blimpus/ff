@@ -43,6 +43,8 @@ def run_trade_values(content_not_found_switch):
         # remove first row and set next row as column headers
         table_ff.columns = table_ff.iloc[0]
         table_ff = table_ff[1:]
+
+        #Output data frame to csv
         pandas_filename = 'trade_values_pandas.csv'
         table_ff.to_csv(pandas_filename, index=True)
 
