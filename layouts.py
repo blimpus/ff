@@ -1,5 +1,4 @@
 import PySimpleGUI as psg
-from ff import helper
 
 layout = [[psg.Text("fantasy football analysis download. \n choose ROS for rest of season projections\n Next Week for \
         weekly projections and comparison\n Trade Values for a trade value output")], [psg.Button("ROS")],

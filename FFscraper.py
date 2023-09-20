@@ -1,23 +1,19 @@
 import json
 import os.path
-import PySimpleGUI as psg
 
 import requests
 import csv
 from datetime import datetime, timedelta
 
-import helper
+from ff.comparison import helper
 import layouts as views
-import TradeValues as tv
+from ff.trade_value import TradeValues as tv
 from player import Player
 
 #https://fantasyfootballanalytics.net/2016/06/ffanalytics-r-package-fantasy-football-data-analysis.html
 
 nfl_start = datetime(2023,9,7)
 
-
-#take name from dropbox and compare against other names stats dont overthink it
-player_dropdown_layout = views.create_player_combobox([])
 i = 0
 compare = 'no'
 position = 'booglie boo'
@@ -113,7 +109,7 @@ player_names.sort()
                                         #size=(750, 200))
 if option == 'nw':
     if 'yes' == compare.lower():
-        players_to_compare = helper.compare_window_players(views.create_player_dropdown_window(player_names),player_names)
+        players_to_compare = helper.compare_window_players(views.create_player_dropdown_window(player_names), player_names)
         helper.compare(players, players_to_compare, position, week)
 
 fileName = f"reports/{today_date}/ranks_{position}.csv"
@@ -124,4 +120,4 @@ with open(fileName, "w", newline="", encoding="utf-8") as csvfile:
 
 print(f"{fileName} Created Successfully")
 cwd = os.getcwd()
-print("full directory path is " + str(cwd) + " so look here for the output files")
+print("full directory path is " + str(cwd) + " so look here for the reports folder")
