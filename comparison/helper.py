@@ -16,16 +16,11 @@ def switch(position):
 
 
 def compare(players, players_to_compare, position, week):
-    #for player in players.values():
-       #print(str(player.rank) + " " + player.name)
-    #rank1, rank2 = input("enter the ranks of the players you want to compare seperated by a space: ").split()
 
     if 'flex' in position.lower():
         print("flex comparisons not supported at this time")
         return
 
-    #player1 = players.get(int(rank1)).name
-    #player2 = players.get(int(rank2)).name
     player1 = players_to_compare.pop()
     player2 = players_to_compare.pop()
 

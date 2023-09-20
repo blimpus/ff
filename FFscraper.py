@@ -6,7 +6,7 @@ import csv
 from datetime import datetime, timedelta
 
 from ff.comparison import helper
-import layouts as views
+from ff.UI import layouts as views
 from ff.trade_value import TradeValues as tv
 from player import Player
 
@@ -69,6 +69,7 @@ elif option == "nw":
 else:
     print("you did it wrong (╯°□°)╯︵ ┻━┻ or maybe I did something wrong ┬─┬ノ(ಠ_ಠノ)")
     exit(1)
+
 # Make a GET request to the API
 response = requests.get(url)
 
@@ -104,9 +105,7 @@ if not isExist:
 
 player_names = list(helper.get_player_name_list(players))
 player_names.sort()
-#real_player_compare_window = psg.Window('combobox example',
-                                        #views.create_player_combobox(test),
-                                        #size=(750, 200))
+
 if option == 'nw':
     if 'yes' == compare.lower():
         players_to_compare = helper.compare_window_players(views.create_player_dropdown_window(player_names), player_names)
