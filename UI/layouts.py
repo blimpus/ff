@@ -1,5 +1,7 @@
 import PySimpleGUI as psg
 
+psg.change_look_and_feel('Black')
+
 layout = [[psg.Text("Fantasy football analysis")],
           [psg.Text("ROS for all positions rest of season outlook")],
           [psg.Text("Next week to show next week predictions and comparison between players")],

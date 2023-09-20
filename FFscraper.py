@@ -14,6 +14,7 @@ from player import Player
 
 nfl_start = datetime(2023,9,7)
 
+
 i = 0
 compare = 'no'
 position = 'booglie boo'
@@ -108,6 +109,9 @@ player_names.sort()
 
 if option == 'nw':
     if 'yes' == compare.lower():
+        if position == "all positions":
+            position = "QB"
+            print("defaulting next week stats as all positions is not supported")
         players_to_compare = helper.compare_window_players(views.create_player_dropdown_window(player_names), player_names)
         helper.compare(players, players_to_compare, position, week)
 
