@@ -5,41 +5,38 @@ from lxml import html
 import csv
 import pandas as pd
 
-# Define the start date of NFL season (used to calculate which NFL week it is)
-static_date = datetime(2023, 9, 3)
+def run_trade_values(content_not_found_switch):
+    # Define the start date of NFL season (used to calculate which NFL week it is)
+    static_date = datetime(2023, 9, 3)
 
-# Get today's date
-today_date = datetime.now()
+    # Get today's date
+    today_date = datetime.now()
 
-# Calculate the time difference
-time_difference = today_date - static_date
+    # Calculate the time difference
+    time_difference = today_date - static_date
 
-# Calculate the number of weeks
-weeks_difference = math.ceil(time_difference.days / 7) - 1
+    # Calculate the number of weeks
+    weeks_difference = math.ceil(time_difference.days / 7)
 
-# Convert weeks to string to use in URL
-weeks_difference_str = str(weeks_difference)
+    if not content_not_found_switch:
+        weeks_difference = weeks_difference - 1
 
-# URL of the website to scrape
-url = "https://www.fantasypros.com/2023/09/fantasy-football-trade-value-chart-week-" + weeks_difference_str + "-2023/"
+    # Convert weeks to string to use in URL
+    weeks_difference_str = str(weeks_difference)
 
-
-# Make a GET request to the API
-
-
-def run_trade_values():
+    # URL of the website to scrape
+    url = "https://www.fantasypros.com/2023/09/fantasy-football-trade-value-chart-week-" + weeks_difference_str + "-2023/"
     response = requests.get(url)
 
     # Check if the request was successful
     if response.status_code == 200:
 
         ######## USING PANDAS ###########
-        table_ff = pd.read_html(url)
-        frames = []
-        for frame in table_ff:
-            frames.append(frame)
 
-        # concat data frames with keys to position so you can filter on what position you want to show later
+        table_ff = pd.read_html(url)
+        frames = [frame for frame in table_ff]
+
+        # concat data frames with keys to position, so you can filter on what position you want to show later
         # example table_ff = table_ff.loc["TE"] will only show the TE positions
         table_ff = pd.concat(frames, keys=["QB", "RB", "WR", "TE"])
 
@@ -47,7 +44,7 @@ def run_trade_values():
         table_ff.columns = table_ff.iloc[0]
         table_ff = table_ff[1:]
 
-        table_ff.to_csv('trade_values_test.csv', index=False)
+        table_ff.to_csv('trade_values_test.csv', index=True)
 
         ######## USING traditional html scraping ###########
 
@@ -81,6 +78,8 @@ def run_trade_values():
 
         else:
             print("No tables found in content")
-
+    elif content_not_found_switch:
+        print("Content not found. Showing results for previous week")
+        run_trade_values(False)
     else:
-        print("Content not found")
+        print("Content not found.")

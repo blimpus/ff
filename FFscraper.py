@@ -46,7 +46,7 @@ while True:
         break
 
     elif event == "Trade Values":
-        tv.run_trade_values()
+        tv.run_trade_values(True)
         print("Exiting application")
         exit(2)
 
