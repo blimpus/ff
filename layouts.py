@@ -1,19 +1,26 @@
 import PySimpleGUI as psg
 
-layout = [[psg.Text("fantasy football analysis download. \n choose ROS for rest of season projections\n Next Week for \
-        weekly projections and comparison\n Trade Values for a trade value output")], [psg.Button("ROS")],
-        [psg.Button("Next Week")], [psg.Button("Trade Values")]]
+layout = [[psg.Text("Fantasy football analysis")],
+          [psg.Text("ROS for all positions rest of season outlook")],
+          [psg.Text("Next week to show next week predictions and comparison between players")],
+          [psg.Text("Trade values for positional trade value")],
+          [psg.Button("ROS")],
+          [psg.Button("Next Week")],
+          [psg.Button("Trade Values")]]
 
-position_layout = [[psg.Text("pick the position you want to report on")], [psg.Button("all positions")],
-                   [psg.Button("RB")], [psg.Button("QB")], [psg.Button("FLEX")], [psg.Button("DST")],
-                   [psg.Button("K")], [psg.Button("WR")]]
+position_layout = [[psg.Text("pick the position you want to report on")],
+                   [psg.Button("all positions")],
+                   [psg.Button("RB")],
+                   [psg.Button("QB")],
+                   [psg.Button("FLEX")],
+                   [psg.Button("DST")],
+                   [psg.Button("K")],
+                   [psg.Button("WR")]]
 
-comparison_layout = [[psg.Text("would you like to compare two players from the results?")], [psg.Button("yes")],
+comparison_layout = [[psg.Text("would you like to compare two players from the results?")],
+                     [psg.Button("yes")],
                      [psg.Button("no")]]
 
-player_comparison_layout = [
-    [psg.Text("pick the two player you want to compare (multiple player comparison coming soon!!!!!!!!!!!!)")]
-]
 
 window = psg.Window("ff", layout, margins=(250, 250))
 position_window = psg.Window("ff", position_layout, margins=(250, 250))

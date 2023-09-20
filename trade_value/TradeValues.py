@@ -43,8 +43,10 @@ def run_trade_values(content_not_found_switch):
         # remove first row and set next row as column headers
         table_ff.columns = table_ff.iloc[0]
         table_ff = table_ff[1:]
+        pandas_filename = 'trade_values_pandas.csv'
+        table_ff.to_csv(pandas_filename, index=True)
 
-        table_ff.to_csv('trade_values_test.csv', index=True)
+        print(f"saving pandas version of trade values to: {pandas_filename}")
 
         ######## USING traditional html scraping ###########
 
